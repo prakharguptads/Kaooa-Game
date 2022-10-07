@@ -1,0 +1,812 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="index.css">
+    <title>Kaooa Game</title>
+</head>
+
+<body>
+
+    <svg ondrag="drag" id="svgelem" width="1500" height="1500" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="380,430,505,50,640,430,280,180,730,180,380,430"
+            style=" fill:#44056900; stroke:black; stroke-width:3" />
+        <circle id="div1" cx="380" cy="430" r="30" stroke="black" stroke-width="3" fill="sandybrown"
+            onclick="clicked('div1');" />
+        <circle id="div2" cx="640" cy="430" r="30" stroke="black" stroke-width="3" fill="sandybrown"
+            onclick="clicked('div2');" />
+        <circle id="div10" cx="280" cy="180" r="30" stroke="black" stroke-width="3" fill="sandybrown"
+            onclick="clicked('div10');" />
+        <circle id="div3" cx="730" cy="180" r="30" stroke="black" stroke-width="3" fill="sandybrown"
+            onclick="clicked('div3');" />
+        <circle id="div4" cx="460" cy="180" r="30" stroke="black" stroke-width="3" fill="sandybrown"
+            onclick="clicked('div4');" />
+        <circle id="div5" cx="505" cy="50" r="30" stroke="black" stroke-width="3" fill="sandybrown"
+            onclick="clicked('div5');" />
+        <circle id="div6" cx="550" cy="180" r="30" stroke="black" stroke-width="3" fill="sandybrown"
+            onclick="clicked('div6');" />
+        <circle id="div7" cx="505" cy="345" r="30" stroke="black" stroke-width="3" fill="sandybrown"
+            onclick="clicked('div7');" />
+        <circle id="div8" cx="435" cy="285" r="30" stroke="black" stroke-width="3" fill="sandybrown"
+            onclick="clicked('div8');" />
+        <circle id="div9" cx="580" cy="285" r="30" stroke="black" stroke-width="3" fill="sandybrown"
+            onclick="clicked('div9');" />
+
+        <circle id="drag1" cx="857" cy="50" r="30" stroke="black" stroke-width="3" fill="#C850C0" />
+        <circle id="drag2" cx="857" cy="150" r="30" stroke="black" stroke-width="3" fill="#C850C0" />
+        <circle id="drag3" cx="857" cy="250" r="30" stroke="black" stroke-width="3" fill="#C850C0" />
+        <circle id="drag4" cx="857" cy="350" r="30" stroke="black" stroke-width="3" fill="#C850C0" />
+        <circle id="drag5" cx="857" cy="450" r="30" stroke="black" stroke-width="3" fill="#C850C0" />
+        <circle id="drag6" cx="857" cy="550" r="30" stroke="black" stroke-width="3" fill="#C850C0" />
+        <circle id="drag7" cx="957" cy="350" r="30" stroke="black" stroke-width="3" fill="#C850C0" />
+        <circle id="drag9" cx="957" cy="250" r="30" stroke="black" stroke-width="3" fill="#4158D0" />
+        <!-- <circle cx="1150" cy="600" r="30" stroke="black" stroke-width="3" fill="brown" /> -->
+    </svg>
+
+    <!-- <p>Click anywhere to test the <code>altKey</code> property.</p>
+    <p id="log"></p> -->
+
+    <script>
+        var f = 0, start = 0, last, crow = 7, vulPoint = 0;
+        fruits = new Set();
+        flag = 1, prev;
+        document.addEventListener('click', logKey);
+        function logKey(e) {
+            console.log("The alt key is pressed:", e.altKey);
+        }
+
+        function clicked(ev) {
+            const btn = document.getElementById(ev);
+            if (fruits.has(ev) && crow == 0) {
+                flag = 0;
+                prev = ev;
+                return;
+            }
+            if (!fruits.has(ev) && last != ev) {
+                if (f % 2 == 0) {
+
+                    if (flag == 0) {
+                        const pre = document.getElementById(prev);
+                        pre.style.fill = "sandybrown";
+                        pre.style.stroke = "black";
+                        fruits.delete(prev);
+                        flag = 1;
+                    }
+                    else if (flag == 1 && crow == 0) {
+                        return;
+                    }
+                    if (crow > 0) {
+                        document.getElementById("drag" + crow).style.opacity = 0;
+                        crow--;
+                    }
+                    btn.style.fill = '#C850C0';
+                    btn.style.stroke = 'white';
+                    fruits.add(ev);
+                    console.log(fruits);
+                    f++;
+                }
+                else if (start === 0) {
+                    btn.style.fill = '#4158D0';
+                    start++;
+                    document.getElementById("drag9").style.opacity = 0;
+                    last = ev;
+
+                    btn.style.stroke = 'black';
+                    f++;
+                }
+                else {
+                    if (last === "div1") {
+                        if (fruits.has("div7") && ev === "div9") {
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            vulPoint++;
+                            fruits.delete("div7");
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (fruits.has("div8") && ev === "div4") {
+                            // console.log("a");
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div8");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            vulPoint++;
+                            fruits.delete("div8");
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div7") && ev === "div7") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div8") && ev === "div8") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div8") || !fruits.has("div7") || !fruits.has("div4") || !fruits.has("div9")) {
+                            f--;
+                        }
+                        else {
+                            alert("Crow Won");
+                            window.location.reload();
+                        }
+                    }
+                    else if (last === "div2") {
+                        if (fruits.has("div7") && ev === "div8") {
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            vulPoint++;
+                            fruits.delete("div7");
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (fruits.has("div9") && ev === "div6") {
+                            // console.log("a");
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div9");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            vulPoint++;
+                            fruits.delete("div9");
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div7") && ev === "div7") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div9") && ev === "div9") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div9") || !fruits.has("div7") || !fruits.has("div8") || !fruits.has("div6")) {
+                            f--;
+                        }
+                        else {
+                            alert("Crow Won");
+                            window.location.reload();
+                        }
+                    }
+                    else if (last === "div3") {
+                        if (fruits.has("div9") && ev === "div7") {
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div9");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            fruits.delete("div9");
+                            vulPoint++;
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (fruits.has("div6") && ev === "div4") {
+                            // console.log("a");
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div6");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            fruits.delete("div6");
+                            vulPoint++;
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div6") && ev === "div6") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div9") && ev === "div9") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div9") || !fruits.has("div6") || !fruits.has("div4") || !fruits.has("div7")) {
+                            f--;
+                        }
+                        else {
+                            alert("Crow Won");
+                            window.location.reload();
+                        }
+                    }
+                    else if (last === "div4") {
+                        if (fruits.has("div6") && ev === "div3") {
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div6");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            fruits.delete("div6");
+                            vulPoint++;
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (fruits.has("div8") && ev === "div1") {
+                            // console.log("a");
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div8");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            fruits.delete("div8");
+                            vulPoint++;
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div8") && ev === "div8") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div6") && ev === "div6") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div5") && ev === "div5") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div10") && ev === "div10") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div6") || !fruits.has("div5") || !fruits.has("div8") || !fruits.has("div10") || !fruits.has("div3") || !fruits.has("div1")) {
+                            f--;
+                        }
+                        else {
+                            alert("Crow Won");
+                            window.location.reload();
+                        }
+                    }
+                    else if (last === "div5") {
+                        if (fruits.has("div4") && ev === "div8") {
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div4");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            fruits.delete("div4");
+                            vulPoint++;
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (fruits.has("div6") && ev === "div9") {
+                            // console.log("a");
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div6");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            fruits.delete("div6");
+                            vulPoint++;
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div6") && ev === "div6") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+
+                        else if (!fruits.has("div4") && ev === "div4") {
+                            const l = document.getElementById(last);
+                            console.log("fe");
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div4") || !fruits.has("div6") || !fruits.has("div8") || !fruits.has("div9")) {
+                            f--;
+                        }
+                        else {
+                            alert("Crow Won");
+                            window.location.reload();
+                        }
+                    }
+                    else if (last === "div6") {
+                        if (fruits.has("div4") && ev === "div10") {
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div4");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            fruits.delete("div4");
+                            vulPoint++;
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (fruits.has("div9") && ev === "div2") {
+                            // console.log("a");
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div9");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            fruits.delete("div9");
+                            vulPoint++;
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div4") && ev === "div4") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div5") && ev === "div5") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div3") && ev === "div3") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div9") && ev === "div9") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div9") || !fruits.has("div3") || !fruits.has("div5") || !fruits.has("div4") || !fruits.has("div10") || !fruits.has("div2")) {
+                            f--;
+                        }
+                        else {
+                            alert("Crow Won");
+                            window.location.reload();
+                        }
+                    }
+                    else if (last === "div7") {
+                        if (fruits.has("div9") && ev === "div3") {
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div9");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            fruits.delete("div9");
+                            vulPoint++;
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (fruits.has("div8") && ev === "div10") {
+                            // console.log("a");
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div8");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            fruits.delete("div8");
+                            vulPoint++;
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div8") && ev === "div8") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div9") && ev === "div9") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div1") && ev === "div1") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div2") && ev === "div2") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div9") || !fruits.has("div2") || !fruits.has("div1") || !fruits.has("div8") || !fruits.has("div3") || !fruits.has("div10")) {
+                            f--;
+                        }
+                        else {
+                            alert("Crow Won");
+                            window.location.reload();
+                        }
+                    }
+                    else if (last === "div8") {
+                        if (fruits.has("div4") && ev === "div4") {
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div4");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            fruits.delete("div4");
+                            vulPoint++;
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (fruits.has("div7") && ev === "div2") {
+                            // console.log("a");
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            fruits.delete("div7");
+                            vulPoint++;
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div7") && ev === "div7") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div4") && ev === "div4") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div1") && ev === "div1") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div10") && ev === "div10") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div10") || !fruits.has("div1") || !fruits.has("div7") || !fruits.has("div4") || !fruits.has("div2") || !fruits.has("div5")) {
+                            f--;
+                        }
+                        else {
+                            alert("Crow Won");
+                            window.location.reload();
+                        }
+                    }
+                    else if (last === "div9") {
+                        if (fruits.has("div6") && ev === "div5") {
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div6");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            fruits.delete("div6");
+                            vulPoint++;
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (fruits.has("div7") && ev === "div1") {
+                            // console.log("a");
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            fruits.delete("div7");
+                            vulPoint++;
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div2") && ev === "div2") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div6") && ev === "div6") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div7") && ev === "div7") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div3") && ev === "div3") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div7") || !fruits.has("div3") || !fruits.has("div6") || !fruits.has("div2") || !fruits.has("div5") || !fruits.has("div1")) {
+                            f--;
+                        }
+                        else {
+                            alert("Crow Won");
+                            window.location.reload();
+                        }
+                    }
+                    else {
+                        if (fruits.has("div4") && ev === "div6") {
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div4");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            fruits.delete("div4");
+                            vulPoint++;
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (fruits.has("div8") && ev === "div7") {
+                            // console.log("a");
+                            const l = document.getElementById(last);
+                            const p = document.getElementById("div8");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            fruits.delete("div8");
+                            vulPoint++;
+                            btn.style.stroke = 'black';
+                            p.style.fill = "sandybrown";
+                            p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div4") && ev === "div4") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div8") && ev === "div8") {
+                            const l = document.getElementById(last);
+                            // const p = document.getElementById("div7");
+                            l.style.fill = "sandybrown";
+                            l.style.stroke = "black";
+                            btn.style.fill = '#4158D0';
+                            last = ev;
+                            btn.style.stroke = 'black';
+                            // p.style.fill = "sandybrown";
+                            // p.style.stroke = "black";
+                        }
+                        else if (!fruits.has("div8") || !fruits.has("div4") || !fruits.has("div6") || !fruits.has("div7")) {
+                            f--;
+                        }
+                        else {
+                            alert("Crow Won");
+                            window.location.reload();
+                        }
+                    }
+                    if (flag == 0) {
+                        flag = 1;
+                    }
+                    f++;
+                }
+            }
+            if (vulPoint == 4) {
+                alert("vulture Won");
+                window.location.reload();
+            }
+            console.log(ev, !fruits.has("div4"), last);
+            console.log(f);
+            console.log(prev);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+    </script>
+</body>
+
+</html>
